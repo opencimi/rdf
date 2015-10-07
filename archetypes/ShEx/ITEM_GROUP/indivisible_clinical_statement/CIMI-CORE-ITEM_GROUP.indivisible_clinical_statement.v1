@@ -1,0 +1,19 @@
+PREFIX cimi_model: <http://opencimi.org/model/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v2/party>
+PREFIX core: <http://opencimi.org/rm/v2/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+PREFIX ITEM_GROUP: <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+
+PREFIX : <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+BASE <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+
+
+# IMPORT CIMI-CORE-ITEM_GROUP/clinical_statement/v1
+
+$:indivisible_clinical_statement_types EXTERNAL
+
+<indivisible_clinical_statement> &:clinical_statement {
+	a $:indivisible_clinical-statement_types?
+}

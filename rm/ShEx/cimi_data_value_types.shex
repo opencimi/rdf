@@ -1,0 +1,104 @@
+PREFIX cimi: <http://opencimi.org/rm/v2/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v2/party>
+PREFIX core: <http://opencimi.org/rm/v2/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+
+PREFIX : <http://opencimi.org/rm/v2/data_value_types/>
+BASE <http://opencimi.org/rm/v2/data_value_types/>
+
+$:DATA_VALUE_types EXTERNAL
+$:TEXT_types EXTERNAL
+$:PLAIN_TEXT_types EXTERNAL
+$:CODED_TEXT_types EXTERNAL
+$:ORDERED_VALUE_types EXTERNAL
+$:ORDINAL_types EXTERNAL
+$:QUANTIFIED_types EXTERNAL
+$:AMOUNT_types EXTERNAL
+$:COUNT_types EXTERNAL
+$:PROPORTION_types EXTERNAL
+$:QUANTITY_types EXTERNAL
+$:DATE_TIME_types EXTERNAL
+$:DATE_types EXTERNAL
+$:TIME_types EXTERNAL
+$:DURATION_types EXTERNAL
+
+VIRTUAL <DATA_VALUE> {
+	a $:DATA_VALUE_types?
+}
+
+VIRTUAL <TEXT> &<DATA_VALUE> {
+	a $:TEXT_types?, 
+	:value primitive_types:String,		
+}
+
+<PLAIN_TEXT> &<TEXT> {
+	a $:PLAIN_TEXT_types?,
+	:language :CODED_TEXT?
+}
+
+<CODED_TEXT> &<TEXT> {
+	a $:CODED_TEXT_types?,
+	:code primitive_types:String,
+	:term primitive_types:String?,
+	:terminology_id primitive_types:String,
+	:terminology_version primitive_types:String?,
+	:uri primitive_types:URI?
+}
+
+
+VIRTUAL <ORDERED_VALUE> &<DATA_VALUE> {
+	a $:ORDERED_VALUE_types?
+}
+
+# INTERVAL_VALUE will be addressed later
+
+VIRTUAL <QUANTIFIED> &<ORDERED_VALUE> {
+	a $:QUANTIFIED_types?,
+	:value_status ("=" "<" ">" "<=" ">=" "~")		# We're loosing typing here but it should be ok
+}
+
+<DATE_TIME> &<QUANTIFIED> {
+	a $:DATE_TIME_types?,
+	:value primitive_types:String
+}
+
+<DATE> &<DATE_TIME> {
+	a $:DATE_types?
+}
+
+<TIME> &<DATE_TIME> {
+	a $:TIME_types?
+}
+
+VIRTUAL <AMOUNT> &<QUANTIFIED> {
+	a $:AMOUNT_types?,
+	:accuracy primitive_types:Real?,
+	:accuracy_is_percent primitive_types:Boolean?
+}
+
+<COUNT> &<AMOUNT> {
+	a $:COUNT_types?,
+	:value primitive_types:Integer
+}
+
+<PROPORTION> &<AMOUNT> {
+	a $:PROPORTION_types?,
+	:denominator primitive_types:Real,
+	:numerator primitive_types:Real,
+	:precision primitive_types:Integer?,
+	:type <CODED_TEXT>
+}
+
+<QUANTITY> &<AMOUNT> {
+	a $:QUANTITY_types?,
+	:precision primitive_types:Integer?,
+	:units :CODED_TEXT,
+	:value primitive_types:Real
+}
+
+<DURATION> &<QUANTITY> {
+	a $:DURATION_types?,
+	:duration_text primitive_types:String?
+}

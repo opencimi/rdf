@@ -1,0 +1,19 @@
+PREFIX cimi_model: <http://opencimi.org/model/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v2/party>
+PREFIX core: <http://opencimi.org/rm/v2/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+
+PREFIX : <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+BASE <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+
+# IMPORT <cimi_core.shex>
+
+$:cluster_types EXTERNAL
+
+<cluster/v1> &core:ITEM_GROUP {
+	a $:cluster_types?,
+	core:item @<cluster/v1>*,
+	core:item @core:ELEMENT*
+}

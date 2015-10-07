@@ -1,0 +1,39 @@
+PREFIX cimi: <http://opencimi.org/rm/v2/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v2/party>
+PREFIX core: <http://opencimi.org/rm/v2/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+
+PREFIX : <http://opencimi.org/rm/v2/primitive_types/>
+BASE <http://opencimi.org/rm/v2/primitive_types/>
+
+# CIMI Primitive Types occur by value rather than reference, meaning that we need to create
+# a custom data type module (!)
+#
+# List<T> and Array<T> are represented as :List_T and :Array_T in the data types module
+#
+# The AML based mapping of these types:
+#   Any == xs:anyType		
+#   Boolean == xs:boolean
+#   Byte == xs:byte
+#   Character == xs:string {1,1}
+#   URI == IRI		    	ISSUE: do we map this to a ShEx IRI or a LITERAL xs:anyURI?
+#   Real == xs:double   	ISSUE: how do we address xs:floatiness
+#   Integer == xs:integer
+#   String == xs:string
+#
+#   List<T> == <List_T>
+#
+#   Example: 
+#   List<Integer>
+#
+#   <List_integer> {
+#	   rdf:rest (rdf:nil)
+#	   | rdf:first xs:integer,
+#	     rdf:rest @<List_integer>
+#	}
+#
+#   It should be noted, however, that some communities such as FHIR have chosen NOT to represent
+#   lists using the official RDF Collection notation and, instead, have chosen alternative approaches
+#   

@@ -1,0 +1,56 @@
+PREFIX cimi: <http://opencimi.org/rm/v2/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v2/party>
+PREFIX core: <http://opencimi.org/rm/v2/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+
+PREFIX : <http://opencimi.org/rm/v2/core/>
+BASE <http://opencimi.org/rm/v2/core/>
+
+
+$:ITEM_types EXTERNAL
+$:LOCATABLE_types EXTERNAL
+$:PARTICIPATION_types EXTERNAL
+$:ITEM_GROUP_types EXTERNAL
+$:ELEMENT_types EXTERNAL
+$:LINK_types EXTERNAL
+
+VIRTUAL <LOCATABLE> {
+	a $:LOCATABLE_types?,							# If no types, identifier is implicit
+	:archetype_node_id primitive_types:String,		
+	:name primitive_types:String,
+	:link @<LINK>*,									# ISSUE: How to we represent containment relationships?
+	:details @<ARCHETYPED>?						
+}
+
+<ARCHETYPED> {
+	a :ARCHETYPED_type?,							# Cannot be constrained
+	:archetype_id: primitive_types:String,
+	:rm_version: LITERAL PATTERN "3\\.*"				# This is where we can restrict breaking versions?
+}
+
+
+VIRTUAL <ITEM> &<LOCATABLE> {
+	a $:ITEM_types?
+}
+
+<PARTICIPATION> &<LOCATABLE> {
+	a $:PARTICIPATION_types?,						
+	:details @<ITEM>*,
+	:function @data_types:CODED_TEXT,
+	:party @party:PARTY
+}
+
+
+<ITEM_GROUP> &<ITEM> {
+	 a $:ITEM_GROUP_types?,
+	 :participation @<PARTICIPATION>*,
+     :item @<ITEM>+
+}
+
+<ELEMENT> &<ITEM> {
+	a $:ELEMENT_types?,
+	:null_flavor @data_types:CODED_TEXT?,
+	:value @data_types:DATA_VALUE?
+}

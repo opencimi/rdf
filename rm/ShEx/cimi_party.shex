@@ -1,0 +1,40 @@
+PREFIX cimi: <http://opencimi.org/rm/v2/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v2/party>
+PREFIX core: <http://opencimi.org/rm/v2/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+
+PREFIX : <http://opencimi.org/rm/v2/party/>
+BASE <http://opencimi.org/rm/v2/party/>
+
+# IMPORT <cimi_core.shex>
+
+$:PARTY_types EXTERNAL					# Returns all known subclasses of PARTY
+$:PARTY_RELATIONSHIP_types EXTERNAL
+$:ROLE_types EXTERNAL
+$:ACTOR_types EXTERNAL
+
+VIRTUAL <PARTY> &core:LOCATABLE {
+	a $:PARTY_types,
+	:relationship @<PARTY_RELATIONSHIP>*,
+	:details @core:ITEM*
+}
+
+<PARTY_RELATIONSHIP> &core:LOCATABLE {
+	a $:PARTY_RELATIONSHIP_types,
+	:details @core:ITEM*,
+	:type @data_value_types:CODED_TEXT,
+	:target @<PARTY>
+}
+
+<ROLE> &<PARTY> {
+	a $:ROLE_types,
+	:type @cimi_data_value_types:CODED_TEXT
+}
+
+<ACTOR> &<PARTY> {
+	a $:ACTOR_types,
+	:type @cimi_data_value_types:CODED_TEXT,
+	:role @<ROLE>*
+}
