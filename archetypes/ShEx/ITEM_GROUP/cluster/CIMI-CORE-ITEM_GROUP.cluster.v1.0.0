@@ -1,19 +1,29 @@
 PREFIX cimi_model: <http://opencimi.org/model/>
 
-PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
-PREFIX party: <http://opencimi.org/rm/v2/party>
-PREFIX core: <http://opencimi.org/rm/v2/core>
-PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+PREFIX primitive_types: <http://opencimi.org/rm/v3/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v3/party>
+PREFIX core: <http://opencimi.org/rm/v3/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v3/data_value_types>
 
 PREFIX : <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
 BASE <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
 
 # IMPORT <cimi_core.shex>
+# definition
+#  ITEM_GROUP[id1] matches {  -- Cluster
+#    item matches {
+#      use_archetype ITEM_GROUP[id3, CIMI-CORE-ITEM_GROUP.cluster.v1] occurrences matches {0..*} 
+#      ELEMENT[id2] occurrences matches {0..*}   -- Element
+#    }
+#  }
 
-$:cluster_types EXTERNAL
 
-<cluster/v1> &core:ITEM_GROUP {
-	a $:cluster_types?,
-	core:item @<cluster/v1>*,
-	core:item @core:ELEMENT*
+$:cluster_types EXTERNAL		   # id1
+$:cluster\/element_types EXTERNAL  # id2
+$:cluster\/cluster_types EXTERNAL  # id3
+
+<cluster> &core:ITEM_GROUP {
+	rdf:type $:cluster_types?,
+	core:item {rdf:type $:cluster\/element_types?,
+			   core:item @core:ELEMENT}*
 }

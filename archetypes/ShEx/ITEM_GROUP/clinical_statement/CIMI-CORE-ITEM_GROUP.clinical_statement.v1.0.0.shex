@@ -1,20 +1,42 @@
 PREFIX cimi_model: <http://opencimi.org/model/>
 
-PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
-PREFIX party: <http://opencimi.org/rm/v2/party>
-PREFIX core: <http://opencimi.org/rm/v2/core>
-PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+PREFIX primitive_types: <http://opencimi.org/rm/v3/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v3/party>
+PREFIX core: <http://opencimi.org/rm/v3/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v3/data_value_types>
 PREFIX ITEM_GROUP: <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
 
 PREFIX : <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
 BASE <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
 
 # IMPORT <cimi_core.shex>
+# IMPORT <CIMI-CORE-ITEM_GROUP/subject_of_information/v1>
+# IMPORT <CIMI-CORE-ITEM_GROUP/cluster/v1>
 
-$:clinical_statement_types EXTERNAL
+#definition
+#  ITEM_GROUP[id1] matches {  -- Clinical Statment
+#    item matches {
+#      use_archetype ITEM_GROUP[id2, CIMI-CORE-ITEM_GROUP.subject_of_information.v1] occurrences matches {1} 
+#      use_archetype ITEM_GROUP[id4, CIMI-CORE-ITEM_GROUP.cluster.v1] occurrences matches {0..*} 
+#      ELEMENT[id5] occurrences matches {0..*}   -- Element
+#    }
+#  }
+
+
+$:clinical_statement_types EXTERNAL                           # id1
+$:clinical_statement\/subject_of_information_types EXTERNAL   # id2
+$:clinical_statement\/cluster_types EXTERNAL                  # id4
+$:clinical_statement\/element_types EXTERNAL                  # id5
 
 <clinical_statement> &core:ITEM_GROUP {
 	a $:Clinical_Statement_types?,
-	core:item @ITEM_GROUP:subject_of_information/v1,
-	core:item @core:ELEMENT*
+
+	core:item (a $:clinical_statement/subject_of_information_types?,	# subject of information
+			   core:item @ITEM_GROUP:subject_of_information\/v1),
+
+	core:item (a $:clinical_statement/cluster_types?,					# cluster
+			   core:item @ITEM_GROUP:cluster\/v1),
+
+	core:item {a $:clinical_statement/element_types?,					# element
+			   core:item @core:ELEMENT*}
 }

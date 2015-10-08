@@ -1,12 +1,12 @@
-PREFIX cimi: <http://opencimi.org/rm/v2/>
+PREFIX cimi: <http://opencimi.org/rm/v3/>
 
-PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
-PREFIX party: <http://opencimi.org/rm/v2/party>
-PREFIX core: <http://opencimi.org/rm/v2/core>
-PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+PREFIX primitive_types: <http://opencimi.org/rm/v3/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v3/party>
+PREFIX core: <http://opencimi.org/rm/v3/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v3/data_value_types>
 
-PREFIX : <http://opencimi.org/rm/v2/data_value_types/>
-BASE <http://opencimi.org/rm/v2/data_value_types/>
+PREFIX : <http://opencimi.org/rm/v3/data_value_types/>
+BASE <http://opencimi.org/rm/v3/data_value_types/>
 
 $:DATA_VALUE_types EXTERNAL
 $:TEXT_types EXTERNAL
@@ -23,6 +23,7 @@ $:DATE_TIME_types EXTERNAL
 $:DATE_types EXTERNAL
 $:TIME_types EXTERNAL
 $:DURATION_types EXTERNAL
+$:IDENTIFIER_types EXTERNAL
 
 VIRTUAL <DATA_VALUE> {
 	a $:DATA_VALUE_types?
@@ -101,4 +102,11 @@ VIRTUAL <AMOUNT> &<QUANTIFIED> {
 <DURATION> &<QUANTITY> {
 	a $:DURATION_types?,
 	:duration_text primitive_types:String?
+}
+
+<IDENTIFIER> &<DATA_VALUE> {
+	a $:IDENTIFIER_types?,
+	:id primitive_types:String,
+	:issuer primitive_types:String,
+	:type :CODED_TEXT
 }

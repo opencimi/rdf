@@ -1,12 +1,12 @@
-PREFIX cimi: <http://opencimi.org/rm/v2/>
+PREFIX cimi: <http://opencimi.org/rm/v3/>
 
-PREFIX primitive_types: <http://opencimi.org/rm/v2/primitive_types>
-PREFIX party: <http://opencimi.org/rm/v2/party>
-PREFIX core: <http://opencimi.org/rm/v2/core>
-PREFIX data_value_types: <http://opencimi.org/rm/v2/data_value_types>
+PREFIX primitive_types: <http://opencimi.org/rm/v3/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v3/party>
+PREFIX core: <http://opencimi.org/rm/v3/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v3/data_value_types>
 
-PREFIX : <http://opencimi.org/rm/v2/core/>
-BASE <http://opencimi.org/rm/v2/core/>
+PREFIX : <http://opencimi.org/rm/v3/core/>
+BASE <http://opencimi.org/rm/v3/core/>
 
 
 $:ITEM_types EXTERNAL
