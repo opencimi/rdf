@@ -1,0 +1,52 @@
+# Bilirubin Observation
+# https://healthservices.atlassian.net/wiki/display/HSPC/Subscription+Resource+Tutorial
+
+@prefix primitive_types: <http://opencimi.org/rm/v3/primitive_types> .
+@prefix party: <http://opencimi.org/rm/v3/party> .
+@prefix core: <http://opencimi.org/rm/v3/core> .
+@prefix data_value_types: <http://opencimi.org/rm/v3/data_value_types> .
+@prefix ITEM_GROUP: <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/> .
+@prefix identifier_types: <http://opencimi.org/idtypes/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix : <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/observation_result/v1> .
+
+_:b a :observation_result;
+    core:item [
+    	a :identifier;
+		data_value_types:value [
+			data_value_types:id "ID520409956-9f51efcd61f04eadb4715f83ee6557cf";
+			data_value_types:issuer "FHIR";
+			data_value_types:type identifier_types:fhir_identifier_type
+		]
+    ];
+    core:item [
+    	a :code;
+    	data_value_types:value [
+    		data_value_types:code "58941-6";
+    		data_value_types:terminology_id "http://loinc.org";
+    		data_value_types:string "Transcutaneous Bilirubin"
+    	]
+    ];
+    core:item [
+    	a :result;
+    	data_value_types:value [
+    		a data_value_types:QUANTITY;
+    		data_value_types:units [
+    			data_value_types:code "mg/dL";
+    			data_value_types:terminology_id "?";
+    			data_value_types:string "mg/dL"
+    		];
+    		data_value_types:value "13.0"^^xsd:double
+    	]
+    ];
+    core:item [
+    	a :status;
+    	data_value_types:value [
+    		data_value_types:code "445665009";
+    		data_value_types:terminology_id "SNOMED_CT";
+    		data_value_types:terminology_version "http://snomed.info/sct/900000000000207008/version/20150131";
+    		data_value_types:uri "http://snomed.info/id/445665009";
+    		data_value_types:string "final"
+    	]
+    ].

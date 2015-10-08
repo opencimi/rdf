@@ -1,0 +1,38 @@
+PREFIX cimi_model: <http://opencimi.org/model/>
+
+PREFIX primitive_types: <http://opencimi.org/rm/v3/primitive_types>
+PREFIX party: <http://opencimi.org/rm/v3/party>
+PREFIX core: <http://opencimi.org/rm/v3/core>
+PREFIX data_value_types: <http://opencimi.org/rm/v3/data_value_types>
+PREFIX ITEM_GROUP: <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+
+PREFIX : <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+BASE <http://opencimi.org/model/CIMI-CORE-ITEM_GROUP/>
+
+
+# IMPORT CIMI-CORE-ITEM_GROUP/indivisible_clinical-statement/v1
+
+$:observation_result_types EXTERNAL
+$:observation_result/identifier_types EXTERNAL
+$:observation_result/code_types EXTERNAL
+$:observation_result/reason_types EXTERNAL
+$:observation_result/method_types EXTERNAL
+
+<observation_result> &:indivisible_clinical_statement {
+	a $:observation_result_types?,
+
+	core:item (a $:observation_result/identifier_types?,		# identifier  -- should we force BNODE?
+				{core:value @data_value_types:IDENTIFIER}),		# Cardinality issues (General import problem?)
+
+	core:item (a $:observation_result/reason_types?,			# Code
+				{core:value @data_value_types:CODED_TEXT},
+				 core:null_flavor .{0}),
+
+	core:item (a $:observation_result/method_types?,			# Method
+				{core:value @data_value_types:CODED_TEXT}),
+
+	core:item (a $:observation_result/status_types?,
+				{core:value @data_value_types:CODED_TEXT}),		# Status
+
+	core:item (a $:observation_result/result_types?)			# Result
+}
